@@ -122,8 +122,15 @@ loadCars().then(list=>{cars=list;initCars()});
     e.preventDefault();
     const btn=f.querySelector("button");btn.disabled=true;btn.textContent="Sending...";
     try{
-      const r=await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(new FormData(f)).toString()});
-      if(!r.ok) throw new Error(r.status);
+      const key=(window.AV_CFG||{}).formKey;let ok;
+      if(key){
+        const o=Object.fromEntries(new FormData(f));delete o["form-name"];delete o["bot-field"];
+        const r=await fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({access_key:key,subject:"Autoryva feedback: "+(o.type||""),...o})});
+        const j=await r.json();ok=r.ok&&j.success!==false;
+      }else{
+        const r=await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(new FormData(f)).toString()});ok=r.ok;
+      }
+      if(!ok) throw new Error("send failed");
       f.innerHTML='<h2>Thank you!</h2><p class="fbhint">Your message was sent. We read every suggestion.</p>';
     }catch(err){
       btn.disabled=false;btn.textContent="Send";
