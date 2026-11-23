@@ -2,6 +2,6 @@
 module.exports = {
   url: 'https://autoryva.site', // your real website address (no slash at the end)
   analyticsId: '', 
-  formEmail: 'mubashirzafar330@gmail.com',                     // optional: Google Analytics ID, like G-XXXXXXXXXX
+  formEmail: '4304010b422197117c969da64f2a5ac4',                     // optional: Google Analytics ID, like G-XXXXXXXXXX
   searchConsoleToken: ''                // optional: code from Google Search Console "HTML tag" method
 };
