@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://autoryva.netlify.app/sitemap.xml
+Sitemap: https://autoryva.site/sitemap.xml

@@ -6,7 +6,7 @@ function headExtras(cfg) {
   let h = '';
   if (cfg.searchConsoleToken) h += `<meta name="google-site-verification" content="${esc(cfg.searchConsoleToken)}">\n`;
   if (cfg.adsenseId) h += `<meta name="google-adsense-account" content="${esc(cfg.adsenseId)}">\n`;
-  const ids = JSON.stringify({ analyticsId: cfg.analyticsId || '', adsenseId: cfg.adsenseId || '', formKey: cfg.web3formsKey || '' }).replace(/</g, '\\u003c');
+  const ids = JSON.stringify({ analyticsId: cfg.analyticsId || '', adsenseId: cfg.adsenseId || '', formKey: cfg.web3formsKey || '', formEmail: cfg.formEmail || '' }).replace(/</g, '\\u003c');
   h += `<script>window.AV_CFG=${ids};</script>\n<script src="/js/common.js"></script>\n<script src="/js/consent.js" defer></script>\n`;
   return h;
 }

@@ -127,6 +127,10 @@ loadCars().then(list=>{cars=list;initCars()});
         const o=Object.fromEntries(new FormData(f));delete o["form-name"];delete o["bot-field"];
         const r=await fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({access_key:key,subject:"Autoryva feedback: "+(o.type||""),...o})});
         const j=await r.json();ok=r.ok&&j.success!==false;
+      }else if((window.AV_CFG||{}).formEmail){
+        const o=Object.fromEntries(new FormData(f));delete o["form-name"];delete o["bot-field"];
+        const r=await fetch("https://formsubmit.co/ajax/"+window.AV_CFG.formEmail,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({_subject:"Autoryva feedback: "+(o.type||""),...o})});
+        const j=await r.json();ok=r.ok&&String(j.success)==="true";
       }else{
         const r=await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(new FormData(f)).toString()});ok=r.ok;
       }
