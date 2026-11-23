@@ -120,7 +120,7 @@ loadCars().then(list=>{cars=list;initCars()});
   if(!f) return;
   f.addEventListener("submit",async e=>{
     e.preventDefault();
-    const btn=f.querySelector("button");btn.disabled=true;btn.textContent="Sending...";
+    const btn=f.querySelector("button");btn.disabled=true;btn.textContent="Sending...";let msg="";
     try{
       const key=(window.AV_CFG||{}).formKey;let ok;
       if(key){
@@ -130,7 +130,7 @@ loadCars().then(list=>{cars=list;initCars()});
       }else if((window.AV_CFG||{}).formEmail){
         const o=Object.fromEntries(new FormData(f));delete o["form-name"];delete o["bot-field"];
         const r=await fetch("https://formsubmit.co/ajax/"+window.AV_CFG.formEmail,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({_subject:"Autoryva feedback: "+(o.type||""),...o})});
-        const j=await r.json();ok=r.ok&&String(j.success)==="true";
+        const j=await r.json();ok=r.ok&&String(j.success)==="true";if(!ok)msg=String(j.message||"");
       }else{
         const r=await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(new FormData(f)).toString()});ok=r.ok;
       }
@@ -138,7 +138,7 @@ loadCars().then(list=>{cars=list;initCars()});
       f.innerHTML='<h2>Thank you!</h2><p class="fbhint">Your message was sent. We read every suggestion.</p>';
     }catch(err){
       btn.disabled=false;btn.textContent="Send";
-      alert("Sorry, the message could not be sent. Please try again later.");
+      console.error("Feedback form:",err,msg);alert("Sorry, the message could not be sent."+(msg?"\n\nReason: "+msg:"")+"\nPlease try again later.");
     }
   });
 })();
